@@ -14,10 +14,13 @@ def write_cmd(string):
         serialLid.write(command)
 
 def read_cmd():
+    f = open("encryptx.txt", 'w+')
     a = 1
     while a:    
         while serialLid.in_waiting:
-            print (serialLid.readline())
+            data = serialLid.readline()
+            print (data)
+            f.write(data.decode())
             a = 0
 
 last = ['MS004407250103\n', 'GD0044072501\n']
