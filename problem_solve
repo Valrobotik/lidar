@@ -1,0 +1,5 @@
+Probleme decoder une tram: raw_string en python/C
+Gestion des retour a la ligne en milieu de paquet d'octet -> '\n' ou termcaps ou escaped caracters
+Gestion des lignes plus courtes en fin de fichier/trame
+Gestion de la variation de taille de la trame
+

@@ -1,0 +1,19 @@
+X = [M: Multiple, G: Simple]
+XS=2 || XD=3 : we go for MS automatic detection
+size variable: go check interval between 2 info
+
+Start reading when start line detected: filter non-pertinent info
+GD 00...
+
+Verification of command line: recap
+Verif 
+
+add complete flag list with -help
+
+analyse scan number: MD[...]XX decressing, only if MD-> multiple
+
+Secu on checksum-> do something : mean filter ? previous value ?
+
+list of solved problem
+
+Increase prog speed (bufferisation)
