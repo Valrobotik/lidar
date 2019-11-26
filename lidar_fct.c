@@ -44,7 +44,7 @@ int	main(int argc, char **argv)
 	scnd_finder(buff, &pos);
 	time_finder(buff, &pos);
 //	ft_putstr("trad :");
-	size = code_decode(buff, &pos, range, 2);
+	size = code_decode(buff, &pos, range, 3);
 //	ft_putstr("\n   ----------------------------------------   \n");
 	fd = open("tmp", O_CREAT | O_WRONLY | O_TRUNC);
 	ft_print_digit_fd(fd, range, size);

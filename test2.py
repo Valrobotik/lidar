@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from subprocess import *
 #rom subprocess import run
-ok = subprocess.call('./dec.exe encrypt4.txt')
+ok = subprocess.call('./dec.exe encryptx.txt')
 print("\n--------  raw out  ----------")
 print(ok)
 print("--------  raw tmp  ----------")
