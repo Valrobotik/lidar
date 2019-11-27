@@ -19,15 +19,13 @@ int	main(int argc, char **argv)
 	int	size;
 
 	if (argc < 2)
-	{
-		ft_putstr("put filename of encrypted data in arg");
-		return (1);
-	}
+		fd = open("encryptx.txt", O_RDONLY);
+	else
+		fd = open(argv[1], O_RDONLY);
 	if (argc < 3)
 		id = 'a';
 	else
 		id = argv[2][0];
-	fd = open(argv[1], O_RDONLY);
 	ret = read(fd, buff, BUFF_SIZE);
 	close(fd);
 	if (ret == 0)
