@@ -47,6 +47,13 @@ def improve(old_data, nbr):
 	    new_data.append((i * (nbr - 1) + j) / nbr)
 	return (new_data)
 
+def do_help(last):
+    print ('Type some of the following key word or a raw command (PP, VV, GD..., ...) for the lidar:\n')
+    print ('last  :  print the last command typed (do not store key words), start with some pre_stored data\n')
+    print ('print :  print the last data set aquired\n')
+    print ('auto  :  keep you in a loop, showing real time lidar datas -> problem: stuck in the loop\n')
+    print ('scan  :  read servals data set, to build a more precise data set\n')
+
 def do_print(last):
     print_map(1)
 
@@ -77,8 +84,10 @@ def do_scan(last):
     
 last = ['MS004407250103\n', 'GD0044072501\n']
 while True:
-    string = input('would you command this lidar ?\n')
-    if (string == 'last'):
+    string = input('what would you wish to accomplish ? type help for... help !\n')
+    if (string == 'help'):
+    	do_help(last)
+    elif (string == 'last'):
     	do_last(last)
     elif (string == 'print'):
     	do_print(last)
