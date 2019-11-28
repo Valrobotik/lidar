@@ -10,3 +10,4 @@ char	*cmd_finder(char *str, int *pos);
 char	*scnd_finder(char *str, int *pos);
 char	*time_finder(char *str, int *pos);
 char	*code_finder(char *str, int *pos);
+//okok
