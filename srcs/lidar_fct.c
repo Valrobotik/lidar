@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 	int	size;
 
 	if (argc < 2)
-		fd = open("encryptx.txt", O_RDONLY);
+		fd = open("../encryptx.txt", O_RDONLY);
 	else
 		fd = open(argv[1], O_RDONLY);
 	if (argc < 3)
@@ -46,10 +46,13 @@ int	main(int argc, char **argv)
 //	ft_putstr("\n   ----------------------------------------   \n");
 	fd = open("tmp", O_CREAT | O_WRONLY | O_TRUNC);
 	ft_print_digit_fd(fd, range, size);
+	g_range = range;
+	g_size = size;
 	if (id == 'c')
 		ft_print_digit(range, size);
 //	ft_putstr("\n   ----------------------------------------   \n");
 	if (id == 'c')
 		code_finder(buff, &pos);
+	display(argc, argv);
 	return (0);
 }

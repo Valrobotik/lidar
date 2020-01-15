@@ -5,16 +5,21 @@ from subprocess import *
 import numpy as np
 import matplotlib.pyplot as plt
 
-serialLid = serial.Serial('/dev/ttyACM0', 9600, timeout=0.50)
+serialLid = serial.Serial('/dev/ttyACM0', 115200, timeout=0.50)
 
 def write_cmd(string):
     if (type(string) == type('thisisastring')):
-        #command = [0x50, 0x50, 0x0A]
         command = []
         for char in string:
-            #command.append(hex( ord(char)))
             command.append( ord(char))
         serialLid.write(command)
+
+def get_cmd(string):
+    if (type(string) == type('thisisastring')):
+        command = []
+        for char in string:
+            command.append( ord(char))
+        return (command)
 
 def read_cmd(flag):
     f = open("encryptx.txt", 'w+')
@@ -48,7 +53,7 @@ def improve(old_data, nbr):
         return (new_data)
 
 def do_help(last):
-    print ('Type some of the following key word or a raw command (PP, VV, GD..., ...) for the lidar:\n')
+    print ('Type one of the following key word or a raw command (PP, VV, GD..., ...) for the lidar:\n')
     print ('last  :  print the last command typed (do not store key words), start with some pre_stored data\n')
     print ('print :  print the last data set aquired\n')
     print ('auto  :  keep you in a loop, showing real time lidar datas -> problem: stuck in the loop\n')
@@ -62,11 +67,13 @@ def do_last(last):
     
 def do_auto(last):
     string = last[1]
+    cmd = get_cmd(string)
     for k in range(1000):
-        write_cmd(string)
+        serialLid.write(cmd)
         read_cmd(0)
         plt.clf()
         print_map(0)
+       # print("one turn\n")
         plt.pause(0.001)
     plt.show()
 
@@ -84,7 +91,7 @@ def do_scan(last):
 
 last = ['MS004407250103\n', 'GD0044072501\n']
 while True:
-    string = input('what would you wish to accomplish ? type help for... help !\n')
+    string = input('Please enter a raw command or type help for a list of premade functions\n')
     if (string == 'help'):
     	do_help(last)
     elif (string == 'last'):
