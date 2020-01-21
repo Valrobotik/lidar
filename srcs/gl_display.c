@@ -42,7 +42,7 @@ void	polar_display(double start, double end)
 	glBegin(GL_LINE_STRIP);
 		while (i < g_size)
 		{
-			ray = (double)(g_range[i] * MAX_HEIGHT) / MAX_VALUE; //  / factory;
+			ray = (double)(g_range[i] * MAX_HEIGHT) / MAX_VALUE / 1.1;
 			glVertex2d(ray * cos(start + (i * (end - start)) / g_size), ray * sin((start + i * (end - start)) / g_size));
 			//glVertex2d(ray * cos((i * M_PI * 2) / g_size), ray * sin((i * M_PI * 2) / g_size));
 			i++;

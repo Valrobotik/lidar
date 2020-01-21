@@ -17,6 +17,7 @@ LIDAR =		lidar_fct.c	\
 		gl.c		\
 		gl_display.c	\
 		gl_form.c	\
+		lidar_reader.c	\
 		mini_lib.c
 
 

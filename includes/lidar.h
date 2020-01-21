@@ -21,3 +21,10 @@ void	polar_display(double start, double end);
 int	display(int argc, char **argv);
 void	form_bat(void);
 void	form_tri(void);
+
+
+	/* com function */
+
+int	open_serial(void);
+int	lidar_write(char *word, int fd);
+int	lidar_read(char *buffer[4096], int fd);
