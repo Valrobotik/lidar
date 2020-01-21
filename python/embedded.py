@@ -3,7 +3,22 @@ from matplotlib import *
 import matplotlib.pyplot as plt
 import numpy as np
 from subprocess import *
-#rom subprocess import run
+
+#
+# Fonction d'affichage de la map utilisant pyplot
+# Si nous sommes dans une raspberry minimale, la creation de fenetre n'est pas possible.
+# 	il faut donc installer un systeme de gestion de fenetre, type "startx"
+# 	la commande startx permet de lancer une interface avec fenetre ouvrable
+#	(et curseur de souris) les arguments de la commande permet de gerer la taille de la fenetre
+#	(a adapter donc). Quelques raccourcis ont ete mis en place sur notre raspberry, appellé ""
+#	ils permettent de substituer un mot cle par une commande:
+#	un terminal colore, lisible et a la taille de notre ecran embarque
+#	startx:
+#	un peu plus grand (ecran de la salle "valrob, tp5")
+#	startbig:
+#	encore plus grand (ecran de la salle "meca, tp6")
+#	startmax:
+#
 
 def print_map(flag):
     ok = subprocess.call('./dec')
