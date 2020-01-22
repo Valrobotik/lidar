@@ -64,7 +64,6 @@ int display(int argc, char** argv)
 	glutInitWindowPosition(50,50);
 	glutInitWindowSize(1200,600);
 	glutCreateWindow("OpenGL - First window demo");
-
 	glutDisplayFunc(renderFunction);
 	glutReshapeFunc(changeSize);
 	glutIdleFunc(renderFunction);

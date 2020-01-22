@@ -1,0 +1,35 @@
+#include <stdlib.h>
+#include "lidar.h"
+
+#define NBR_PREMADE 2
+
+int	fct_flash(char buffer[READ_BUFF])
+{
+	strcpy(buffer, "GD0044072501\n");
+	return (0);
+}
+
+int	fct_exit(char buffer[READ_BUFF])
+{
+	(void)buffer;
+	ft_putstr("exiting\n");
+	exit(0);
+	return (0);
+}
+
+int	lidar_cmd_is_premade(char buffer[READ_BUFF])
+{
+	char 	*list[NBR_PREMADE] = {"exit\n", "flash\n"};
+	int	(*fonction[NBR_PREMADE])(char buffer[READ_BUFF]) = {
+			fct_exit, fct_flash};
+	int	k;
+
+	k = 0;
+	while (k < NBR_PREMADE)
+	{
+		if (!strcmp(buffer, list[k]))
+			return (fonction[k](buffer));
+		k++;
+	}
+	return (0);
+}

@@ -14,10 +14,11 @@ LIDAR_PATH = ./srcs/
 
 LIDAR =		lidar_fct.c	\
 		lidar_finder.c	\
+		lidar_reader.c	\
+		lidar_premade.c	\
 		gl.c		\
 		gl_display.c	\
 		gl_form.c	\
-		lidar_reader.c	\
 		mini_lib.c
 
 

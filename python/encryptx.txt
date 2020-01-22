@@ -1,10 +1,3 @@
-II
-00P
-MODL:URG-04LX-UG01(Simple-URG)(Hokuyo Automatic Co.,Ltd.);N
-LASR:OFF;7
-SCSP:Initial(600[rpm])<-Default setting by user;A
-MESM:IDLE;:
-SBPS:19200[bps]<-Default setting by user;A
-TIME:032945;P
-STAT:Sensor works well.;8
+BM
+02R
 

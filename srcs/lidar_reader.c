@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "lidar.h"
+#include "libft.h"
 
 int	open_serial(void)
 {
@@ -13,7 +14,7 @@ int	open_serial(void)
 	return (fd);
 }
 
-int	lidar_read(char *buffer[4096], int fd)
+int	lidar_read(char *buffer[LIDAR_BUFF], int fd)
 {
 	int	err;
 

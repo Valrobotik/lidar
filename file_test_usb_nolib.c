@@ -172,6 +172,7 @@ static int find_testdev (const char *name, const struct stat *sb, int flag)
 	int				fd;
 	struct usb_device_descriptor	dev;
 
+	(void)sb;
 	if (flag != FTW_F)
 		return 0;
 	/* ignore /proc/bus/usb/{devices,drivers} */
@@ -314,13 +315,13 @@ int main (int argc, char **argv)
 		continue;
 	case 'c':	/* count iterations */
 		param.iterations = atoi (optarg);
-		if (param.iterations < 0)
-			goto usage;
+		//if (param.iterations < 0)
+		//	goto usage;
 		continue;
 	case 'g':	/* scatter/gather entries */
 		param.sglen = atoi (optarg);
-		if (param.sglen < 0)
-			goto usage;
+		//if (param.sglen < 0)
+		//	goto usage;
 		continue;
 	case 'l':	/* loop forever */
 		forever = 1;
@@ -330,8 +331,8 @@ int main (int argc, char **argv)
 		continue;
 	case 's':	/* size of packet */
 		param.length = atoi (optarg);
-		if (param.length < 0)
-			goto usage;
+		//if (param.length < 0)
+		//	goto usage;
 		continue;
 	case 't':	/* run just one test */
 		test = atoi (optarg);
@@ -340,8 +341,8 @@ int main (int argc, char **argv)
 		continue;
 	case 'v':	/* vary packet size by ... */
 		param.vary = atoi (optarg);
-		if (param.vary < 0)
-			goto usage;
+		//if (param.vary < 0)
+		//	goto usage;
 		continue;
 	case '?':
 	case 'h':
