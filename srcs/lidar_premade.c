@@ -6,28 +6,27 @@
 
 #define NBR_PREMADE 3
 
-int	fct_flash(char buffer[READ_BUFF], struct pollfd fds[1], int fd)
+int	fct_flash(char buffer[READ_BUFF])
 {
-	(void)fds;
-	(void)fd;
 	strcpy(buffer, "GD0044072501\n");
 	return (0);
 }
 
-int	fct_print(char buffer[READ_BUFF], struct pollfd fds[1], int fd)
+int	fct_print(char buffer[READ_BUFF])
 {
 	int	wcount;
 	int	pos;
 
 	strcpy(buffer, "GD0044072501\n");
 	//strcpy(buffer, "MS004407250103\n");
-	wcount = write(fd, buffer, strlen(buffer));
+	wcount = write(g_fd, buffer, strlen(buffer));
 	if (wcount < 0)
 	{
 		perror("Write");
 		return -1;
 	}
-	lidar_get_resp(fds, fd);
+	ft_putstr(" mid way\n");
+	lidar_get_resp(g_fds, g_fd);
 	pos = 0;
 	cmd_finder(g_buff, &pos);
 	scnd_finder(g_buff, &pos);
@@ -36,21 +35,18 @@ int	fct_print(char buffer[READ_BUFF], struct pollfd fds[1], int fd)
 	return (2);
 }
 
-int	fct_exit(char buffer[READ_BUFF], struct pollfd fds[1], int fd)
+int	fct_exit(char buffer[READ_BUFF])
 {
-	(void)fds;
-	(void)fd;
 	(void)buffer;
 	ft_putstr("exiting\n");
 	exit(0);
 	return (0);
 }
 
-int	lidar_cmd_is_premade(char buffer[READ_BUFF], struct pollfd fds[1], int fd)
+int	lidar_cmd_is_premade(char buffer[READ_BUFF])
 {
 	char 	*list[NBR_PREMADE] = {"exit\n", "flash\n", "print\n"};
-	int	(*fonction[NBR_PREMADE])(char buffer[READ_BUFF], struct pollfd fds[1],
-			int fd) = {
+	int	(*fonction[NBR_PREMADE])(char buffer[READ_BUFF]) = {
 			fct_exit, fct_flash, fct_print};
 	int	k;
 
@@ -58,7 +54,7 @@ int	lidar_cmd_is_premade(char buffer[READ_BUFF], struct pollfd fds[1], int fd)
 	while (k < NBR_PREMADE)
 	{
 		if (!strcmp(buffer, list[k]))
-			return (fonction[k](buffer, fds, fd));
+			return (fonction[k](buffer));
 		k++;
 	}
 	return (0);

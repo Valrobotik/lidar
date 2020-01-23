@@ -147,40 +147,39 @@ int main(int argc, char* argv[])
 }*/
 int 	main(int argc, char** argv)
 {
-	struct pollfd fds[1];
-	int fd = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NONBLOCK);
 	int	wcount;
 	char	buffer[READ_BUFF];
 	int	res;
-	int	*range;
 
-	range = (int*)malloc(sizeof(int) * NBR_VAL);
-	g_range = range;
-
-	if (fd == -1)
+	g_fd = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NONBLOCK);
+	g_range = (int*)malloc(sizeof(int) * NBR_VAL);
+	if (g_fd == -1)
 	{
 		perror(argv[1]);
 		return -1;
 	}
-	set_interface_attribs(fd, BAUDRATE, 0);		//setup de l'interfacage
-	fds[0].fd = fd;
-	fds[0].events = POLLRDNORM;
+	set_interface_attribs(g_fd, BAUDRATE, 0);		//setup de l'interfacage
+	g_fds[0].fd = g_fd;
+	g_fds[0].events = POLLRDNORM;
 	while (1)
 	{
 		ft_putstr("please enter a command\n");
 		wcount = read(0, buffer, READ_BUFF);
 		buffer[wcount] = 0;
-		if (!(res = lidar_cmd_is_premade(buffer, fds, fd)))
+		if (!(res = lidar_cmd_is_premade(buffer)))
 		{	//effectue la fonction si la commande est pre-enregistree
-			wcount = write(fd, buffer, strlen(buffer));	//sinon transmet au lidar
+			wcount = write(g_fd, buffer, strlen(buffer));	//sinon transmet au lidar
 			if (wcount < 0)
 			{
 				perror("Write");
 				return -1;
 			}
-			lidar_do_loop(fds, fd);
+			lidar_do_loop(g_fds, g_fd);
 		}
 		if (res == 2)
+		{
+			ft_putstr("disp on\n");
 			display(argc, argv);
+		}
 	}
 }

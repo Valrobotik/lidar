@@ -45,16 +45,32 @@ void renderFunction(void)
 			0.0f, 0.0f, 0.0f,
 			0.0f, 1.0f, 0.0f);
 
-	//glRotatef(angle, 0.0f, 1.0f, 0.0f);
-
+	if (g_flag)
+	{
+		glRotatef(angle, 0.0f, 1.0f, 0.0f);
+		angle += 0.4f;
+	}
 	linear_display();
 
 	glColor3f(1.0, 0.0, 1.0);
 	polar_display(-2.0944, 2.0944);
 
-	//angle += 0.4f;
 	glutSwapBuffers();
 	//glFlush();
+}
+
+void	keyboard(unsigned char key, int x, int y)
+{
+	char	buffer[READ_BUFF];
+
+	(void)x;
+	(void)y;
+	if (key == 'a')
+		exit(0);
+	if (key == 'b')
+		fct_print(buffer);
+	if (key == 'r')
+		g_flag = -1 * g_flag + 1;
 }
 
 int display(int argc, char** argv)
@@ -66,6 +82,7 @@ int display(int argc, char** argv)
 	glutCreateWindow("OpenGL - First window demo");
 	glutDisplayFunc(renderFunction);
 	glutReshapeFunc(changeSize);
+	glutKeyboardFunc(keyboard);
 	glutIdleFunc(renderFunction);
 	glutMainLoop();    
 	return 1;
