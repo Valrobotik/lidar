@@ -162,7 +162,7 @@ int 	main(int argc, char** argv)
 		perror(argv[1]);
 		return -1;
 	}
-	//set_interface_attribs(fd, BAUDRATE, 0);		//setup de l'interfacage
+	set_interface_attribs(fd, BAUDRATE, 0);		//setup de l'interfacage
 	fds[0].fd = fd;
 	fds[0].events = POLLRDNORM;
 	while (1)
@@ -180,7 +180,6 @@ int 	main(int argc, char** argv)
 			}
 			lidar_do_loop(fds, fd);
 		}
-		//display(argc, argv);
 		if (res == 2)
 			display(argc, argv);
 	}

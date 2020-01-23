@@ -18,7 +18,6 @@ int	fct_print(char buffer[READ_BUFF], struct pollfd fds[1], int fd)
 {
 	int	wcount;
 	int	pos;
-	int	range[NBR_VAL];
 
 	strcpy(buffer, "GD0044072501\n");
 	//strcpy(buffer, "MS004407250103\n");
@@ -29,15 +28,11 @@ int	fct_print(char buffer[READ_BUFF], struct pollfd fds[1], int fd)
 		return -1;
 	}
 	lidar_get_resp(fds, fd);
-	ft_putstr(g_buff);
-	ft_putstr("\n\nthen\n\n");
 	pos = 0;
 	cmd_finder(g_buff, &pos);
 	scnd_finder(g_buff, &pos);
 	time_finder(g_buff, &pos);
-	g_size = code_decode(g_buff, &pos, g_range, 3);
-	ft_print_digit(range, g_size);
-	g_range = range;
+	g_size = code_decode(g_buff, &pos, 3);
 	return (2);
 }
 

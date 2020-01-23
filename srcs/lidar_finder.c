@@ -96,7 +96,7 @@ char	*code_finder(char *str, int *pos)
 	return (str + tmp);
 }
 
-int	code_decode(char *str, int *pos, int range[NBR_VAL], int nb)
+int	code_decode(char *str, int *pos, int nb)
 {
 	int	k;
 	char	caract;
@@ -121,9 +121,7 @@ int	code_decode(char *str, int *pos, int range[NBR_VAL], int nb)
 				nbr = decode(tmp, nb);
 				if (ind >= 0 && ind < NBR_VAL)
 				{
-					ft_putnbr(nbr);
-					ft_putstr(" _ ");
-					range[ind] = nbr;
+					g_range[ind] = nbr;
 					ind++;
 				}
 				i = 0;
@@ -146,7 +144,6 @@ int	code_decode(char *str, int *pos, int range[NBR_VAL], int nb)
 		}
 		k++;
 	}
-	ft_print_digit(range, NBR_VAL);
 	return (ind);//probleme de transmission du buffer ? ecrire sur le buffer global ?
 
 }

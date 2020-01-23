@@ -10,7 +10,7 @@ int	*g_range;
 int	g_size;
 
 int	decode(const char code[], int byte);
-int	code_decode(char *str, int *pos, int range[682], int nb);
+int	code_decode(char *str, int *pos, int nb);
 void	ft_print_digit(int *range, int size);
 void	ft_print_digit_fd(int fd, int *range, int size);
 char	*cmd_finder(char *str, int *pos);
