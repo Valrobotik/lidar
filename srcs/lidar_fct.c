@@ -179,6 +179,7 @@ int 	main(int argc, char** argv)
 		if (res == 2)
 		{
 			ft_putstr("disp on\n");
+			setup_flag();
 			display(argc, argv);
 		}
 	}

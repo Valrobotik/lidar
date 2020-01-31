@@ -4,6 +4,8 @@
 #define LIDAR_BUFF 5600
 #define READ_BUFF 200
 #define NBR_VAL 682
+#define WIN_HEIGHT 600
+#define WIN_WIDTH 1200
 
 char		g_buff[LIDAR_BUFF];
 int		*g_range;
@@ -30,6 +32,9 @@ int	display(int argc, char **argv);
 void	form_bat(void);
 void	form_tri(void);
 
+	/* flag functions */
+
+void	setup_flag(void);
 
 	/* com function */
 
