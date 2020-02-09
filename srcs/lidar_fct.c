@@ -5,6 +5,7 @@
 
 #include <stdlib.h>
 #include "lidar.h"
+#include <bcm2835.h>
 
 #define NBR_VAL 682
 
@@ -18,6 +19,7 @@
 #include <fcntl.h>
 #include <termios.h>
 
+#include <bcm2835.h>
 #include <errno.h>
 
 
@@ -55,7 +57,7 @@ int	set_interface_attribs(int fd, int speed, int parity)
 	return (0);
 }
 
-void	lidar_do_loop(struct pollfd fds[1], int fd)
+void	lidar_get_resp_print(struct pollfd fds[1], int fd)
 {
 	int	ret;
 	int	res;
@@ -70,6 +72,7 @@ void	lidar_do_loop(struct pollfd fds[1], int fd)
 		{
 			if (fds[0].revents & POLLRDNORM)
 			{
+				write(1, "resp\n\n", 5);
 				res = read(fd, buffer, LIDAR_BUFF);
 				buffer[res] = 0;
 				write(1, buffer, strlen(buffer));
@@ -77,6 +80,27 @@ void	lidar_do_loop(struct pollfd fds[1], int fd)
 			}
 		}
 	}
+}
+
+int	lidar_try_get_resp_print(struct pollfd fds[1], int fd)
+{
+	int	ret;
+	int	res;
+	char	buffer[LIDAR_BUFF];
+
+	ret = poll(fds, 1, 1000);
+	if (ret > 0)
+	{
+		if (fds[0].revents & POLLRDNORM)
+		{
+			write(1, "resp\n\n", 5);
+			res = read(fd, buffer, LIDAR_BUFF);
+			buffer[res] = 0;
+			write(1, buffer, strlen(buffer));
+			return (1);
+		}
+	}
+	return (0);
 }
 
 void	lidar_get_resp(struct pollfd fds[1], int fd)
@@ -100,51 +124,33 @@ void	lidar_get_resp(struct pollfd fds[1], int fd)
 		}
 	}
 }
-/*
-int main(int argc, char* argv[])
+
+int	lidar_try_get_resp(struct pollfd fds[1], int fd)
 {
-	char	buff[BUFF_SIZE];
-	int	range[NBR_VAL];
 	int	ret;
-	int	fd;
-	int	pos;
-	char	id;
-	int	size;
+	int	res;
 
-	if (argc < 2)
-		fd = open("../encryptx.txt", O_RDONLY);
-	else
-		fd = open(argv[1], O_RDONLY);
-	if (argc < 3)
-		id = 'a';
-	else
-		id = argv[2][0];
-	ret = read(fd, buff, BUFF_SIZE);
-	close(fd);
-	if (ret == 0)
-		return (1);
-	buff[ret] = 0;
-	if (id == 'b' || id == 'c')
+	ret = poll(fds, 1, 1000);
+	if (ret > 0)
 	{
-		ft_putstr("----  found: ----\n");
-		ft_putstr(buff);
-		ft_putstr("\n ---------------------------- \n");
+		if (fds[0].revents & POLLRDNORM)
+		{
+			res = read(fd, g_buff, LIDAR_BUFF);
+			g_buff[res] = '\0';
+			return (1);
+		}
 	}
-	pos = 0;
-	cmd_finder(buff, &pos);
-	scnd_finder(buff, &pos);
-	time_finder(buff, &pos);
-//	ft_putstr("trad :");
-	size = code_decode(buff, &pos, range, 3);
-//	ft_putstr("\n   ----------------------------------------   \n");
-	fd = open("tmp", O_CREAT | O_WRONLY | O_TRUNC);
-	ft_print_digit_fd(fd, range, size);
-	g_range = range;
-	g_size = size;
-	display(argc, argv);
 	return (0);
+}
 
-}*/
+void	max_baudrate(void)
+{
+	char *buff = "SS115200\n";
+
+	write(g_fd, buff, strlen(buff));		//change baude rate lidar
+	set_interface_attribs(g_fd, 115200, 0);		//chage bauderate de l'interfacage
+}
+
 int 	main(int argc, char** argv)
 {
 	int	wcount;
@@ -156,11 +162,24 @@ int 	main(int argc, char** argv)
 	if (g_fd == -1)
 	{
 		perror(argv[1]);
-		return -1;
 	}
-	set_interface_attribs(g_fd, BAUDRATE, 0);		//setup de l'interfacage
+	if (g_fd > 0)
+		set_interface_attribs(g_fd, BAUDRATE, 0);		//setup de l'interfacage
 	g_fds[0].fd = g_fd;
 	g_fds[0].events = POLLRDNORM;
+	if (!bcm2835_init())
+		return (1);
+	bcm2835_gpio_fsel(PINOUT, BCM2835_GPIO_FSEL_OUTP);	
+	bcm2835_gpio_fsel(PINREED, BCM2835_GPIO_FSEL_INPT);	
+	bcm2835_gpio_fsel(PINRESET, BCM2835_GPIO_FSEL_INPT);	
+	max_baudrate();
+	if (g_fd > 0)
+		lidar_get_resp_print(g_fds, g_fd);
+	if (argc > 1)
+	{
+		do_flag(argv[1]);
+		return (0);
+	}
 	while (1)
 	{
 		ft_putstr("please enter a command\n");
@@ -174,7 +193,7 @@ int 	main(int argc, char** argv)
 				perror("Write");
 				return -1;
 			}
-			lidar_do_loop(g_fds, g_fd);
+			lidar_get_resp_print(g_fds, g_fd);
 		}
 		if (res == 2)
 		{

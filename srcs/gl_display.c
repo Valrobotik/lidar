@@ -3,6 +3,9 @@
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <math.h>
+#include <bcm2835.h>
+
+#include <stdio.h>
 
 #define MAX_VALUE 4000
 #define MAX_LEN 15
@@ -49,4 +52,34 @@ void	polar_display(double start, double end)
 		}
 	glEnd();
 
+}
+
+void	light_led(int pin, int status)
+{
+	if (status < 10)
+		bcm2835_gpio_clr(pin);
+	else
+		bcm2835_gpio_set(pin);
+}
+
+void	led_stop()
+{
+	int	i;
+	int	led;
+	int	distlast;
+
+	distlast = 0;
+	led = 0;
+	i = 0;
+	while (i < g_size)
+	{
+		if (g_range[i] > 100 && g_range[i] < 300)
+		{
+			distlast = g_range[i];
+			led++;
+		}
+		i++;
+	}
+	light_led(PINOUT, led);
+	printf("led value = %d range:%d\n", led, distlast);
 }

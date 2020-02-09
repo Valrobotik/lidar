@@ -18,7 +18,8 @@ int	lidar_read(char *buffer[LIDAR_BUFF], int fd)
 {
 	int	err;
 
-	err = read(fd, *buffer, 10);
+	err = read(fd, *buffer, LIDAR_BUFF);
+	buffer[err] = 0;
 	ft_putstr(*buffer);
 	ft_putstr(" < is ok\n");
 	return (err);

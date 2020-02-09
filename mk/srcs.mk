@@ -19,6 +19,10 @@ LIDAR =		lidar_fct.c	\
 		gl.c		\
 		gl_display.c	\
 		gl_form.c	\
+		flag.c		\
+		robot_start.c	\
+		edge_shift.c	\
+		pile.c		\
 		mini_lib.c
 
 

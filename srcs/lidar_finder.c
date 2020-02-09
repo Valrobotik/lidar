@@ -24,6 +24,39 @@ char	*cmd_finder(char *str, int *pos)
 }
 
 /*
+** Analyse the first line, command recap, wait to get the asked command
+*/
+
+int	cmd_finder_name(char *str, int *pos, char *name)
+{
+	int	k;
+	int	len;
+
+	len = strlen(name) - 1;//on retire le \n
+	if (!str || !str[*pos])
+		return (0);
+	while (str[*pos] && k < len)
+	{
+		if (str[*pos] == '\n')
+			(*pos)++;
+		k = 0;
+		while (str[*pos] && str[*pos] != '\n')
+		{
+			if (name[k] && (name[k] == str[*pos]))
+				k++;
+			else
+				k = 0;
+			(*pos)++;
+		}
+	}
+	if (str[*pos])
+		(*pos)++;
+	if (k == len)
+		return (1);
+	return (0);
+}
+
+/*
 ** Analyse the second line, verif/secu
 */
 
@@ -144,6 +177,5 @@ int	code_decode(char *str, int *pos, int nb)
 		}
 		k++;
 	}
-	return (ind);//probleme de transmission du buffer ? ecrire sur le buffer global ?
-
+	return (ind);
 }
