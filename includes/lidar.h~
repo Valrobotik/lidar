@@ -20,7 +20,7 @@
 #define	B_SIDE 0
 #define Y_SIDE 1
 
-#define STOP_TIME 97 	//prevoir une secu, genre 95/100
+#define STOP_TIME 10 	//prevoir une secu, genre 95/100
 
 #define SIDE 4
 #define REED 3
@@ -47,7 +47,7 @@ typedef struct		s_pile
 	double		x;
 	double		y;
 	double		a;
-	double		time;
+	int		time;
 
 }			t_pile;
 

@@ -16,7 +16,6 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <termios.h>
 
 #include <bcm2835.h>
@@ -158,7 +157,6 @@ int 	main(int argc, char** argv)
 	int	res;
 
 	g_fd = open("/dev/ttyACM0", O_RDWR | O_NOCTTY | O_NONBLOCK);
-	g_range = (int*)malloc(sizeof(int) * NBR_VAL);
 	if (g_fd == -1)
 	{
 		perror(argv[1]);
@@ -167,19 +165,21 @@ int 	main(int argc, char** argv)
 		set_interface_attribs(g_fd, BAUDRATE, 0);		//setup de l'interfacage
 	g_fds[0].fd = g_fd;
 	g_fds[0].events = POLLRDNORM;
+	max_baudrate();
 	if (!bcm2835_init())
 		return (1);
 	bcm2835_gpio_fsel(PINOUT, BCM2835_GPIO_FSEL_OUTP);	
 	bcm2835_gpio_fsel(PINREED, BCM2835_GPIO_FSEL_INPT);	
 	bcm2835_gpio_fsel(PINRESET, BCM2835_GPIO_FSEL_INPT);	
-	max_baudrate();
-	if (g_fd > 0)
-		lidar_get_resp_print(g_fds, g_fd);
+	bcm2835_gpio_fsel(PINSIDE, BCM2835_GPIO_FSEL_INPT);	
 	if (argc > 1)
 	{
 		do_flag(argv[1]);
 		return (0);
 	}
+	g_range = (int*)malloc(sizeof(int) * NBR_VAL);
+	if (g_fd > 0)
+		lidar_get_resp_print(g_fds, g_fd);
 	while (1)
 	{
 		ft_putstr("please enter a command\n");

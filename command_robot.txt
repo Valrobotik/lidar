@@ -1,0 +1,12 @@
+# LISTE des commande pour le robot, ils seront execute dans l'ordre:
+# structure d'une commande:
+#	G00 pour du deplacement, X__ et Y__ pour la destination
+#	A__ pour l'angle et T__ pour le temps avant de passer a la suite si non reussi (watch dog)
+G00X0Y1A0T5
+G00X1.5Y1.5A90T7
+G00X4.5Y8A90T7
+G00X4.5Y8A90T7
+G00X4.5Y8A90T7
+G00X4.5Y8A90T7
+G00X0Y0A180T5
+G00X20Y20A0T5

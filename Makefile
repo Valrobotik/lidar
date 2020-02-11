@@ -13,7 +13,7 @@
 include mk/srcs.mk
 
 CC = gcc
-LIBS = -lm -l bcm2835 #-lft -fsanitize=address
+LIBS = -lm -l bcm2835 -lft #-fsanitize=address
 LIBSFOLDERS = -L./libft
 vpath %.c $(dir MAKEFILE_LIST)
 CFLAGS = -Wall -Wextra -Werror -I./includes -I./libft/includes
