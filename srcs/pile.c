@@ -23,7 +23,7 @@ void	display_move(t_pile *pile)
 	printf("   and A=");
 	printf("%f", pile->a);
 	printf(" inside %f", pile->time);
-	printf(" seconds\n");
+	printf(" seconds transmit: %s\n", pile->cmd);
 	
 }
 
@@ -40,6 +40,31 @@ double	cmd_find(char elmt, char *str)
 		return (-1);
 }
 
+double	cmd_find_remove(char elmt, char **str)
+{
+	int	k;
+	double	res;
+	char	c;
+
+	k = 0;
+	while ((*str)[k] && (*str)[k] != elmt)
+		k++;
+	if ((*str)[k] == elmt)
+	{
+		res = atof((*str) + k + 1);
+		(*str)[k] = ' ';
+		while ((c = (*str)[k + 1]) && (ft_isdigit(c) || c == '-' || c == '.'))
+		{
+			(*str)[k + 1] = ' ';
+			k++;
+		}
+		return (res);
+
+	}
+	else
+		return (-1);
+}
+
 int	is_move(char *str, t_pile **pile)
 {
 	if (cmd_find('G', str) == 0)
@@ -47,7 +72,8 @@ int	is_move(char *str, t_pile **pile)
 		(*pile)->x = cmd_find('X', str);
 		(*pile)->y = cmd_find('Y', str);
 		(*pile)->a = cmd_find('A', str);
-		(*pile)->time = cmd_find('T', str);
+		(*pile)->time = cmd_find_remove('T', & str);
+		(*pile)->cmd = str;
 		return (1);
 	}
 	return (0);
@@ -114,6 +140,11 @@ int	it_is_done(t_pile **pile)
 	double	y_obj;
 	double	dist;
 
+	if (get_next_line(g_fd, &str) == 1 && str)
+	{
+		ft_putstr("response: ");
+		ft_putstr(str);
+	}
 	return (0);
 	write(g_fd, ASK_POS, ft_strlen(ASK_POS));
 	get_next_line(g_fd, &str);

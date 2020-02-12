@@ -2,11 +2,14 @@
 # structure d'une commande:
 #	G00 pour du deplacement, X__ et Y__ pour la destination
 #	A__ pour l'angle et T__ pour le temps avant de passer a la suite si non reussi (watch dog)
-G00X0Y1A0T5
-G00X1.5Y1.5A90T7
-G00X4.5Y8A90T7
-G00X4.5Y8A90T7
-G00X4.5Y8A90T7
-G00X4.5Y8A90T7
-G00X0Y0A180T5
-G00X20Y20A0T5
+
+#  G00 X00 Y00 A00  	-  GO to X Y position
+#  G92 X00 y00 A00  	-  Reset current position to X Y Angle
+#  M666			-  test
+#
+
+G00 X000 T2
+G00 X100 T2
+G00 T4 X000
+G00 X100 T2
+

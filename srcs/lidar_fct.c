@@ -165,18 +165,19 @@ int 	main(int argc, char** argv)
 		set_interface_attribs(g_fd, BAUDRATE, 0);		//setup de l'interfacage
 	g_fds[0].fd = g_fd;
 	g_fds[0].events = POLLRDNORM;
-	max_baudrate();
 	if (!bcm2835_init())
 		return (1);
 	bcm2835_gpio_fsel(PINOUT, BCM2835_GPIO_FSEL_OUTP);	
 	bcm2835_gpio_fsel(PINREED, BCM2835_GPIO_FSEL_INPT);	
 	bcm2835_gpio_fsel(PINRESET, BCM2835_GPIO_FSEL_INPT);	
 	bcm2835_gpio_fsel(PINSIDE, BCM2835_GPIO_FSEL_INPT);	
-	if (argc > 1)
+	if (argc > 1) //fonction avec les flags
 	{
+		set_interface_attribs(g_fd, 115200, 0);		//chage bauderate de l'interfacage
 		do_flag(argv[1]);
 		return (0);
 	}
+	max_baudrate();
 	g_range = (int*)malloc(sizeof(int) * NBR_VAL);
 	if (g_fd > 0)
 		lidar_get_resp_print(g_fds, g_fd);

@@ -1,5 +1,6 @@
 #include <bcm2835.h>
 #include "lidar.h"
+#include <unistd.h>
 
 /* ask if we have time to continue (within 95 secs ?)*/
 int	we_have_time(void)
@@ -90,6 +91,7 @@ int	start_robot(void)
 			g_time_start = clock();
 			tmp = time(&tmp);
 			ft_putstr("\n----  START MATCH  ----\n");
+			write(g_fd, "M19\n", 4);
 			ft_putstr(asctime(gmtime(&tmp)));
 			ft_putstr("\n");
 			start = 1;
@@ -97,6 +99,7 @@ int	start_robot(void)
 		if (detect_rising(valueReset, RESET))
 		{
 			start = 0;
+			write(g_fd, "M18\n", 4);
 			pile = setup_robot();
 		}
 		if (start == 1)
