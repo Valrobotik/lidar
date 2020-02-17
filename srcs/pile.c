@@ -16,14 +16,14 @@
 
 void	display_move(t_pile *pile)
 {
-	printf("    wana go to X=");
-	printf("%f", pile->x);
-	printf("   and Y=");
-	printf("%f", pile->y);
-	printf("   and A=");
-	printf("%f", pile->a);
-	printf(" inside %f", pile->time);
-	printf(" seconds transmit: %s\n", pile->cmd);
+//	printf("    wana go to X=");
+//	printf("%f", pile->x);
+//	printf("   and Y=");
+//	printf("%f", pile->y);
+//	printf("   and A=");
+//	printf("%f", pile->a);
+//	printf(" inside %f seconds, ", pile->time);
+	printf(" transmit: %s\n", pile->cmd);
 	
 }
 
@@ -72,7 +72,6 @@ int	is_move(char *str, t_pile **pile)
 		(*pile)->x = cmd_find('X', str);
 		(*pile)->y = cmd_find('Y', str);
 		(*pile)->a = cmd_find('A', str);
-		(*pile)->time = cmd_find_remove('T', & str);
 		(*pile)->cmd = str;
 		return (1);
 	}
@@ -88,15 +87,15 @@ void	add_list(t_pile **pile, char *str)
 		return ;
 	ft_memset(new_pile, 0, sizeof(new_pile));
 	if (is_move(str, &new_pile))
-	{
 		new_pile->move = 1;
-		display_move(new_pile);
-	}
 	else
-	new_pile->move = 0;
+		new_pile->move = 0;
+	new_pile->time = cmd_find_remove('T', &str);
 	new_pile->next = NULL;
+	str = ft_strjoin(str, "\n");//replace the \n of the original cmd
 	new_pile->cmd = str;
 	new_pile->status = PENDING; //to_process
+//	display_move(new_pile);
 	if (!(*pile))
 		*pile = new_pile;
 	else
@@ -108,6 +107,7 @@ void	add_list(t_pile **pile, char *str)
 	}
 }
 
+/* */
 t_pile	*build_pile(void)
 {
 	t_pile	*first_elm;
@@ -119,7 +119,7 @@ t_pile	*build_pile(void)
 	ft_putstr("_________  LIST TO EXEC  ____________\n");
 	while (get_next_line(fd, &str) > 0)
 	{
-		if (str && str[0] != '#' && str[0] != '/')//ignore comments 
+		if (str && str[0] != '#' && str[0] != '/' && str[0] != '\n')//ignore comments 
 		{
 			ft_putstr("- ");
 			ft_putstr(str);
@@ -131,6 +131,11 @@ t_pile	*build_pile(void)
 	return (first_elm);
 }
 
+/* this function is to check if the command is a success */
+/* Due to an incapacity of reading on the com with ST, this fuction
+ * will be shortcut by a return (0) */
+/* this is suppose to go to the next task when it is finish */
+
 int	it_is_done(t_pile **pile)
 {
 	char	*str;
@@ -140,12 +145,12 @@ int	it_is_done(t_pile **pile)
 	double	y_obj;
 	double	dist;
 
+	return (0);
 	if (get_next_line(g_fd, &str) == 1 && str)
 	{
 		ft_putstr("response: ");
 		ft_putstr(str);
 	}
-	return (0);
 	write(g_fd, ASK_POS, ft_strlen(ASK_POS));
 	get_next_line(g_fd, &str);
 	{
@@ -163,22 +168,22 @@ int	it_is_done(t_pile **pile)
 
 /* Function qui pour chaque commande de la pile, envoie la demande au moteur, puis si la commande est faite
  * passe a la suivante*/
+
 int	unpile_cmd(t_pile **pile)
 {
 	static clock_t		start;
 
-	if (*pile)
+	if (*pile) //pile not empty
 	{
-		if ((*pile)->status == PENDING)//if cmd not sent yet
+		if ((*pile)->status == PENDING)//if command not sent yet
 		{
-			ft_putstr("exec: ");
-			ft_putstr((*pile)->cmd);
-			ft_putstr("\n");
-			start = clock();
 			if (g_fd != -1)
 			{
-				write(g_fd, (*pile)->cmd, ft_strlen((*pile)->cmd));
-				(*pile)->status = PROCESS;
+				printf("in %f sec, exec :%s", (*pile)->time, (*pile)->cmd);
+				fflush(stdout); 	//on vide le buffer
+				start = clock();	//on retient le time de start
+				write(g_fd, (*pile)->cmd, ft_strlen((*pile)->cmd)); //send command
+				(*pile)->status = PROCESS;	//this command is now, in PROCESS
 			}
 			else
 				ft_putstr("cannot reach motion card\n");

@@ -49,7 +49,7 @@ int main()
     setsockopt(s, SOL_CAN_RAW, CAN_RAW_FILTER, NULL, 0);
 
     //5.Set send data
-    frame.can_id = 0x123;
+    frame.can_id = 0x6;
     frame.can_dlc = 8;
     frame.data[0] = 1;
     frame.data[1] = 2;

@@ -128,4 +128,5 @@ int	detect_falling(int value, int elmt);
 
 t_pile	*build_pile(void);
 int	unpile_cmd(t_pile **pile);
+void	get_resp(struct pollfd fds[1], int fd);
 //int 	wait_tirette(void);

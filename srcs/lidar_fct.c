@@ -162,7 +162,7 @@ int 	main(int argc, char** argv)
 		perror(argv[1]);
 	}
 	if (g_fd > 0)
-		set_interface_attribs(g_fd, BAUDRATE, 0);		//setup de l'interfacage
+		set_interface_attribs(g_fd, 115200, 0);		//setup de l'interfacage
 	g_fds[0].fd = g_fd;
 	g_fds[0].events = POLLRDNORM;
 	if (!bcm2835_init())
@@ -173,7 +173,7 @@ int 	main(int argc, char** argv)
 	bcm2835_gpio_fsel(PINSIDE, BCM2835_GPIO_FSEL_INPT);	
 	if (argc > 1) //fonction avec les flags
 	{
-		set_interface_attribs(g_fd, 115200, 0);		//chage bauderate de l'interfacage
+		//set_interface_attribs(g_fd, 115200, 0);		//chage bauderate de l'interfacage
 		do_flag(argv[1]);
 		return (0);
 	}

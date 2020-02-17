@@ -3,6 +3,22 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+void	get_resp(struct pollfd fds[1], int fd)
+{
+	int	ret;
+	int	res;
+
+		ret = poll(fds, 1, 1000);
+		if (ret > 0)
+		{
+			if (fds[0].revents & POLLRDNORM)
+			{
+				res = read(fd, g_buff, LIDAR_BUFF);
+				g_buff[res] = '\0';
+			}
+		}
+}
+
 int	interface_condition(void)
 {
 	char	buffer[READ_BUFF];
@@ -10,11 +26,16 @@ int	interface_condition(void)
 
 	while (1)
 	{
+		wcount = read(g_fd, buffer, READ_BUFF);
+		ft_putstr("respond :");
+		wcount = write(1, buffer, wcount);	//sinon transmet au lidar
+		ft_putstr("\n");
 		ft_putstr("please enter a command for the robot\n");
 		wcount = read(0, buffer, READ_BUFF);
-		buffer[wcount] = 0;
-		wcount = write(g_fd, buffer, strlen(buffer));	//sinon transmet au lidar
-		wcount = read(g_fd, buffer, READ_BUFF);
+		wcount = write(g_fd, buffer, wcount);	//sinon transmet au lidar
+		ft_putstr("send :");
+		wcount = write(1, buffer, wcount);	//sinon transmet au lidar
+		ft_putstr("<<<\n");
 	}
 }
 
