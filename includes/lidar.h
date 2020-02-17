@@ -32,6 +32,8 @@ int		*g_range;
 int		g_size;
 struct pollfd 	g_fds[1];
 int		g_fd;
+int		g_wr;
+int		g_rd;
 int		g_flag;
 int		g_side;
 clock_t		g_time_start;

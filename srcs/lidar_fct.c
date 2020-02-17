@@ -48,6 +48,7 @@ int	set_interface_attribs(int fd, int speed, int parity)
 	serial.c_cc[VTIME] = 0;					//time out : 5 = 0.5 sec 
 	serial.c_iflag &= ~(IXON | IXOFF | IXANY);
 	serial.c_cflag |=  (CLOCAL | CREAD);
+//	serial.c_cflag |=  CS8;
 	serial.c_cflag &=  (PARENB | PARODD);
 	serial.c_cflag |=  parity;
 	serial.c_cflag &=  ~CSTOPB;
@@ -161,8 +162,8 @@ int 	main(int argc, char** argv)
 	{
 		perror(argv[1]);
 	}
-	if (g_fd > 0)
-		set_interface_attribs(g_fd, 115200, 0);		//setup de l'interfacage
+	//if (g_fd > 0)
+	//	set_interface_attribs(g_fd, 115200, 0);		//setup de l'interfacage
 	g_fds[0].fd = g_fd;
 	g_fds[0].events = POLLRDNORM;
 	if (!bcm2835_init())
